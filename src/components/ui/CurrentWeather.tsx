@@ -1,4 +1,12 @@
-import { Box, Flex, Text, Image, Icon, VStack, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  Icon,
+  VStack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { FiWind, FiDroplet, FiSun, FiThermometer } from "react-icons/fi";
 import { Weather } from "@/types/weather"; // Adjust this import path based on your project structure
 
@@ -7,7 +15,7 @@ interface CurrentWeatherProps {
 }
 
 export default function CurrentWeather({ weather }: CurrentWeatherProps) {
-  const layout = useBreakpointValue({ base: "column", md: "row" });
+  const layout = useBreakpointValue({ base: "column", md: "row", sm: "column" });
 
   if (!weather) {
     return (
@@ -20,7 +28,9 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
         w="100%"
         textAlign="center"
       >
-        <Text fontSize="lg" fontWeight="bold">Weather data is not available</Text>
+        <Text fontSize="lg" fontWeight="bold">
+          Weather data is not available
+        </Text>
       </Box>
     );
   }
@@ -40,7 +50,8 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
         {weather.location?.name || "N/A"}
       </Text>
       <Text fontSize="xl" fontWeight="semibold" textAlign="center">
-        {weather.location?.region || "N/A"}, {weather.location?.country || "N/A"}
+        {weather.location?.region || "N/A"},{" "}
+        {weather.location?.country || "N/A"}
       </Text>
       <Text fontSize="5xl" fontWeight="bold" mt={4} textAlign="center">
         {weather.current?.temp_c ?? "N/A"}°C
@@ -57,19 +68,24 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
             mr={4}
           />
         )}
-        <Text fontSize="lg" fontWeight="bold">{weather.current?.condition?.text || "N/A"}</Text>
+        <Text fontSize="lg" fontWeight="bold">
+          {weather.current?.condition?.text || "N/A"}
+        </Text>
       </Flex>
 
       <VStack align="stretch" spacing={4}>
         <Flex align="center" justify={layout} mb={2}>
           <Icon as={FiWind} boxSize={6} mr={2} />
           <Text fontSize="lg">
-            Wind: {weather.current?.wind_kph ?? "N/A"} kph {weather.current?.wind_dir || "N/A"}
+            Wind: {weather.current?.wind_kph ?? "N/A"} kph{" "}
+            {weather.current?.wind_dir || "N/A"}
           </Text>
         </Flex>
         <Flex align="center" justify={layout} mb={2}>
           <Icon as={FiDroplet} boxSize={6} mr={2} />
-          <Text fontSize="lg">Humidity: {weather.current?.humidity ?? "N/A"}%</Text>
+          <Text fontSize="lg">
+            Humidity: {weather.current?.humidity ?? "N/A"}%
+          </Text>
         </Flex>
         <Flex align="center" justify={layout} mb={2}>
           <Icon as={FiSun} boxSize={6} mr={2} />
@@ -77,17 +93,23 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
         </Flex>
         <Flex align="center" justify={layout} mb={4}>
           <Icon as={FiThermometer} boxSize={6} mr={2} />
-          <Text fontSize="lg">Pressure: {weather.current?.pressure_mb ?? "N/A"} mb</Text>
+          <Text fontSize="lg">
+            Pressure: {weather.current?.pressure_mb ?? "N/A"} mb
+          </Text>
         </Flex>
-        
+
         <Box>
-          <Text fontWeight="bold" fontSize="lg">Air Quality:</Text>
+          <Text fontWeight="bold" fontSize="lg">
+            Air Quality:
+          </Text>
           <VStack align="stretch" spacing={1} mt={2}>
             <Text>CO: {weather.current?.air_quality?.co ?? "N/A"} μg/m³</Text>
             <Text>NO₂: {weather.current?.air_quality?.no2 ?? "N/A"} μg/m³</Text>
             <Text>O₃: {weather.current?.air_quality?.o3 ?? "N/A"} μg/m³</Text>
             <Text>SO₂: {weather.current?.air_quality?.so2 ?? "N/A"} μg/m³</Text>
-            <Text>PM10: {weather.current?.air_quality?.pm10 ?? "N/A"} μg/m³</Text>
+            <Text>
+              PM10: {weather.current?.air_quality?.pm10 ?? "N/A"} μg/m³
+            </Text>
           </VStack>
         </Box>
       </VStack>
