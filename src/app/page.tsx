@@ -3,10 +3,9 @@
 import { useEffect, useState } from "react";
 import AirConditions from "@/components/ui/AirCondition";
 import CurrentWeather from "@/components/ui/CurrentWeather";
-import TodaysForecast from "@/components/ui/TodayForecast"; // Ensure this import path is correct
-import SevenDayForecast from "@/components/ui/WeeklyForecast"; // Updated import name to match the provided code
+import TodaysForecast from "@/components/ui/TodayForecast";
+import SevenDayForecast from "@/components/ui/WeeklyForecast";
 import {
-  Box,
   Container,
   Flex,
   Spinner,
@@ -22,8 +21,7 @@ import {
   HourlyWeather,
   HourlyForecast,
   DailyForecast,
-} from "@/types/hourly_forecast"; // Adjusted to import from `weather.ts` where `HourlyForecast` is defined
-
+} from "@/types/hourly_forecast";
 export default function Home() {
   const [weatherData, setWeatherData] = useState<Weather | null>(null);
   const [hourlyForecastData, setHourlyForecastData] = useState<
@@ -34,11 +32,9 @@ export default function Home() {
   >(null);
   const [loading, setLoading] = useState(true);
 
-  // Color mode values
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const textColor = useColorModeValue("gray.800", "gray.100");
   const tabBgColor = useColorModeValue("white", "gray.800");
-  const tabSelectedColor = useColorModeValue("blue.500", "blue.300");
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -126,32 +122,27 @@ export default function Home() {
   return (
     <Container maxW="100vw" pt={20} bg={bgColor} color={textColor}>
       <Flex direction="column" align="center">
-        {/* Tabs for Components */}
         <Tabs variant="line" colorScheme="blue" w="full">
           <TabList mt={8} bg={tabBgColor} borderRadius="lg">
             <Tab>Current Weather</Tab>
             <Tab>7-Day Forecast</Tab>
-            <Tab>Today's Forecast</Tab>
+            <Tab>Today&apos;s Forecast</Tab>
             <Tab>Air Conditions</Tab>
           </TabList>
 
           <TabPanels>
-            {/* Current Weather Tab */}
             <TabPanel>
               {weatherData && <CurrentWeather weather={weatherData} />}
             </TabPanel>
 
-            {/* 7-Day Forecast Tab */}
             <TabPanel>
               <SevenDayForecast dailyForecasts={weeklyForecastData || null} />
             </TabPanel>
 
-            {/* Today's Forecast Tab */}
             <TabPanel>
               <TodaysForecast hourlyForecast={hourlyForecastData || null} />
             </TabPanel>
 
-            {/* Air Conditions Tab */}
             <TabPanel>
               {weatherData && <AirConditions weather={weatherData} />}
             </TabPanel>

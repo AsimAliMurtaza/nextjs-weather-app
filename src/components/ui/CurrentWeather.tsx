@@ -61,7 +61,6 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
           gap={6}
           alignItems="center"
         >
-          {/* Left Section - Main Weather Details */}
           <VStack align="center" spacing={4} textAlign="center">
             <Icon as={FiMapPin} boxSize={6} color={iconColor} />
             <Text fontSize="2xl" fontWeight="bold" color={textColor}>
@@ -86,7 +85,6 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
             </Text>
           </VStack>
 
-          {/* Right Section - Additional Weather Details */}
           <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
             <Flex align="center">
               <Icon as={FiWind} boxSize={6} color={iconColor} mr={2} />

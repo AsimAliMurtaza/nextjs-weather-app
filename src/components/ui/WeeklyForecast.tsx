@@ -1,13 +1,11 @@
 import {
   VStack,
   Text,
-  Box,
   Card,
   Image,
   Divider,
   Grid,
   GridItem,
-  Flex,
   useColorModeValue,
   Icon,
   HStack,

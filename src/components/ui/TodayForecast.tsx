@@ -7,22 +7,18 @@ import {
   Divider,
   Box,
   useColorModeValue,
-  Flex,
   Icon,
-  Badge,
-  Progress,
 } from "@chakra-ui/react";
-import { HourlyForecast } from "@/types/hourly_forecast"; // Adjust this import path based on your project structure
+import { HourlyForecast } from "@/types/hourly_forecast";
 import { FiClock, FiThermometer, FiDroplet, FiWind } from "react-icons/fi";
 
 interface TodaysForecastProps {
-  hourlyForecast: HourlyForecast[] | null; // Allow null or undefined
+  hourlyForecast: HourlyForecast[] | null;
 }
 
 export default function TodaysForecast({
-  hourlyForecast = [], // Default to empty array if null
+  hourlyForecast = [],
 }: TodaysForecastProps) {
-  // Color mode values
   const bgColor = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.800", "gray.100");
   const cardBg = useColorModeValue("gray.50", "gray.700");
@@ -67,7 +63,6 @@ export default function TodaysForecast({
       </Text>
       <Divider orientation="horizontal" mb={4} borderColor={borderColor} />
 
-      {/* Hourly Forecast Scrollable Container */}
       <Box
         w="100%"
         overflowX="auto"
@@ -114,7 +109,6 @@ export default function TodaysForecast({
                 {hour.condition.text}
               </Text>
 
-              {/* Additional Weather Details */}
               <VStack spacing={1} align="start" w="full">
                 <HStack spacing={2}>
                   <Icon as={FiDroplet} boxSize={4} color={iconColor} />
@@ -134,7 +128,6 @@ export default function TodaysForecast({
         </HStack>
       </Box>
 
-      {/* Summary Section */}
       <Box mt={6}>
         <Text fontSize="lg" fontWeight="bold" color={textColor} mb={2}>
           Summary

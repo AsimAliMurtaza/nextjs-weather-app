@@ -11,7 +11,6 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await response.json();
-    console.log(data);
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(

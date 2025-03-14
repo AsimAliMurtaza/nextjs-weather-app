@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import {
   Flex,
   Text,
@@ -37,6 +36,7 @@ export default function Header() {
   const drawerBg = useColorModeValue("gray.100", "gray.800");
   const buttonBg = useColorModeValue("blue.500", "blue.600");
   const buttonHover = useColorModeValue("blue.600", "blue.700");
+  const bgColor = useColorModeValue("gray.300", "gray.700");
 
   const menuItems = [
     { label: "Weather", icon: BsCloudSun },
@@ -142,7 +142,7 @@ export default function Header() {
                   borderRadius="full"
                   transition="all 0.3s"
                   _hover={{
-                    bg: useColorModeValue("gray.300", "gray.700"),
+                    bg: { bgColor },
                     transform: "scale(1.05)",
                     cursor: "pointer",
                   }}

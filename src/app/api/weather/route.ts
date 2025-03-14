@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
@@ -7,13 +7,16 @@ export async function GET(req: NextRequest) {
     );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch weather data');
+      throw new Error("Failed to fetch weather data");
     }
 
     const data = await response.json();
     console.log(data);
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch weather data' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch weather data" },
+      { status: 500 }
+    );
   }
 }
