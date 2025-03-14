@@ -9,9 +9,13 @@ import {
   Box,
   Container,
   Flex,
-  Grid,
-  GridItem,
   Spinner,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Weather } from "@/types/weather";
 import {
@@ -29,6 +33,12 @@ export default function Home() {
     DailyForecast[] | null
   >(null);
   const [loading, setLoading] = useState(true);
+
+  // Color mode values
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const textColor = useColorModeValue("gray.800", "gray.100");
+  const tabBgColor = useColorModeValue("white", "gray.800");
+  const tabSelectedColor = useColorModeValue("blue.500", "blue.300");
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -114,30 +124,39 @@ export default function Home() {
   }
 
   return (
-    <Container
-      maxW="container.xl"
-      p={4}
-      sx={{
-        backgroundColor: "#1C2432",
-        borderRadius: "md",
-        boxShadow: "lg",
-      }}
-    >
+    <Container maxW="100vw" pt={20} bg={bgColor} color={textColor}>
       <Flex direction="column" align="center">
-        {/* Main Content */}
-        <Box w="full" maxW="container.xl">
-          {/* Current Weather */}
-          {weatherData && <CurrentWeather weather={weatherData} />}
+        {/* Tabs for Components */}
+        <Tabs variant="line" colorScheme="blue" w="full">
+          <TabList mt={8} bg={tabBgColor} borderRadius="lg">
+            <Tab>Current Weather</Tab>
+            <Tab>7-Day Forecast</Tab>
+            <Tab>Today's Forecast</Tab>
+            <Tab>Air Conditions</Tab>
+          </TabList>
 
-          {/* 7-Day Forecast */}
-          <SevenDayForecast dailyForecasts={weeklyForecastData || null} />
+          <TabPanels>
+            {/* Current Weather Tab */}
+            <TabPanel>
+              {weatherData && <CurrentWeather weather={weatherData} />}
+            </TabPanel>
 
-          {/* Today's Forecast */}
-          <TodaysForecast hourlyForecast={hourlyForecastData || null} />
+            {/* 7-Day Forecast Tab */}
+            <TabPanel>
+              <SevenDayForecast dailyForecasts={weeklyForecastData || null} />
+            </TabPanel>
 
-          {/* Air Conditions */}
-          {weatherData && <AirConditions weather={weatherData} />}
-        </Box>
+            {/* Today's Forecast Tab */}
+            <TabPanel>
+              <TodaysForecast hourlyForecast={hourlyForecastData || null} />
+            </TabPanel>
+
+            {/* Air Conditions Tab */}
+            <TabPanel>
+              {weatherData && <AirConditions weather={weatherData} />}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Flex>
     </Container>
   );

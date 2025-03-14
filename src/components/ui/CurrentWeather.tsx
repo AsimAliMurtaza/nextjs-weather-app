@@ -5,17 +5,29 @@ import {
   Image,
   Icon,
   VStack,
-  useBreakpointValue,
+  Grid,
+  useColorModeValue,
+  Card,
+  CardBody,
 } from "@chakra-ui/react";
-import { FiWind, FiDroplet, FiSun, FiThermometer } from "react-icons/fi";
-import { Weather } from "@/types/weather"; // Adjust this import path based on your project structure
+import {
+  FiWind,
+  FiDroplet,
+  FiSun,
+  FiThermometer,
+  FiMapPin,
+} from "react-icons/fi";
+import { Weather } from "@/types/weather";
 
 interface CurrentWeatherProps {
-  weather?: Weather; // Make weather optional to handle undefined cases
+  weather?: Weather;
 }
 
 export default function CurrentWeather({ weather }: CurrentWeatherProps) {
-  const layout = useBreakpointValue({ base: "column", md: "row", sm: "column" });
+  const bgColor = useColorModeValue("white", "gray.800");
+  const textColor = useColorModeValue("gray.800", "gray.100");
+  const iconColor = useColorModeValue("blue.500", "blue.300");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   if (!weather) {
     return (
@@ -23,9 +35,8 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
         p={4}
         bg="red.400"
         color="white"
-        borderRadius="md"
+        borderRadius="2xl"
         boxShadow="lg"
-        w="100%"
         textAlign="center"
       >
         <Text fontSize="lg" fontWeight="bold">
@@ -36,83 +47,96 @@ export default function CurrentWeather({ weather }: CurrentWeatherProps) {
   }
 
   return (
-    <Box
-      p={4}
-      bg="blue.400"
-      color="white"
-      borderRadius="md"
-      boxShadow="lg"
+    <Card
       w="100%"
-      maxW="800px"
       mx="auto"
+      bg={bgColor}
+      borderRadius="2xl"
+      boxShadow="lg"
+      borderColor={borderColor}
     >
-      <Text fontSize="4xl" fontWeight="bold" textAlign="center">
-        {weather.location?.name || "N/A"}
-      </Text>
-      <Text fontSize="xl" fontWeight="semibold" textAlign="center">
-        {weather.location?.region || "N/A"},{" "}
-        {weather.location?.country || "N/A"}
-      </Text>
-      <Text fontSize="5xl" fontWeight="bold" mt={4} textAlign="center">
-        {weather.current?.temp_c ?? "N/A"}°C
-      </Text>
-      <Text fontSize="lg" mb={4} textAlign="center">
-        Feels like: {weather.current?.feelslike_c ?? "N/A"}°C
-      </Text>
-      <Flex align="center" justify="center" mb={4}>
-        {weather.current?.condition?.icon && (
-          <Image
-            src={`https:${weather.current.condition.icon}`}
-            alt={weather.current.condition?.text || "N/A"}
-            boxSize="70px"
-            mr={4}
-          />
-        )}
-        <Text fontSize="lg" fontWeight="bold">
-          {weather.current?.condition?.text || "N/A"}
-        </Text>
-      </Flex>
-
-      <VStack align="stretch" spacing={4}>
-        <Flex align="center" justify={layout} mb={2}>
-          <Icon as={FiWind} boxSize={6} mr={2} />
-          <Text fontSize="lg">
-            Wind: {weather.current?.wind_kph ?? "N/A"} kph{" "}
-            {weather.current?.wind_dir || "N/A"}
-          </Text>
-        </Flex>
-        <Flex align="center" justify={layout} mb={2}>
-          <Icon as={FiDroplet} boxSize={6} mr={2} />
-          <Text fontSize="lg">
-            Humidity: {weather.current?.humidity ?? "N/A"}%
-          </Text>
-        </Flex>
-        <Flex align="center" justify={layout} mb={2}>
-          <Icon as={FiSun} boxSize={6} mr={2} />
-          <Text fontSize="lg">UV Index: {weather.current?.uv ?? "N/A"}</Text>
-        </Flex>
-        <Flex align="center" justify={layout} mb={4}>
-          <Icon as={FiThermometer} boxSize={6} mr={2} />
-          <Text fontSize="lg">
-            Pressure: {weather.current?.pressure_mb ?? "N/A"} mb
-          </Text>
-        </Flex>
-
-        <Box>
-          <Text fontWeight="bold" fontSize="lg">
-            Air Quality:
-          </Text>
-          <VStack align="stretch" spacing={1} mt={2}>
-            <Text>CO: {weather.current?.air_quality?.co ?? "N/A"} μg/m³</Text>
-            <Text>NO₂: {weather.current?.air_quality?.no2 ?? "N/A"} μg/m³</Text>
-            <Text>O₃: {weather.current?.air_quality?.o3 ?? "N/A"} μg/m³</Text>
-            <Text>SO₂: {weather.current?.air_quality?.so2 ?? "N/A"} μg/m³</Text>
-            <Text>
-              PM10: {weather.current?.air_quality?.pm10 ?? "N/A"} μg/m³
+      <CardBody p={6}>
+        <Grid
+          templateColumns={{ base: "1fr", md: "1fr 2fr" }}
+          gap={6}
+          alignItems="center"
+        >
+          {/* Left Section - Main Weather Details */}
+          <VStack align="center" spacing={4} textAlign="center">
+            <Icon as={FiMapPin} boxSize={6} color={iconColor} />
+            <Text fontSize="2xl" fontWeight="bold" color={textColor}>
+              {weather.location?.name || "N/A"}
+            </Text>
+            <Text fontSize="lg" color="gray.500">
+              {weather.location?.region}, {weather.location?.country}
+            </Text>
+            <Image
+              src={`https:${weather.current?.condition?.icon}`}
+              alt={weather.current?.condition?.text}
+              boxSize="80px"
+            />
+            <Text fontSize="6xl" fontWeight="bold" color={textColor}>
+              {weather.current?.temp_c ?? "N/A"}°C
+            </Text>
+            <Text fontSize="lg" color="gray.500">
+              Feels like: {weather.current?.feelslike_c ?? "N/A"}°C
+            </Text>
+            <Text fontSize="xl" fontWeight="bold" color={textColor}>
+              {weather.current?.condition?.text || "N/A"}
             </Text>
           </VStack>
-        </Box>
-      </VStack>
-    </Box>
+
+          {/* Right Section - Additional Weather Details */}
+          <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+            <Flex align="center">
+              <Icon as={FiWind} boxSize={6} color={iconColor} mr={2} />
+              <Text fontSize="lg" color={textColor}>
+                Wind: {weather.current?.wind_kph ?? "N/A"} kph
+              </Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FiDroplet} boxSize={6} color={iconColor} mr={2} />
+              <Text fontSize="lg" color={textColor}>
+                Humidity: {weather.current?.humidity ?? "N/A"}%
+              </Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FiSun} boxSize={6} color={iconColor} mr={2} />
+              <Text fontSize="lg" color={textColor}>
+                UV Index: {weather.current?.uv ?? "N/A"}
+              </Text>
+            </Flex>
+            <Flex align="center">
+              <Icon as={FiThermometer} boxSize={6} color={iconColor} mr={2} />
+              <Text fontSize="lg" color={textColor}>
+                Pressure: {weather.current?.pressure_mb ?? "N/A"} mb
+              </Text>
+            </Flex>
+            <Box>
+              <Text fontWeight="bold" fontSize="lg" color={textColor} mb={2}>
+                Air Quality
+              </Text>
+              <VStack align="start" spacing={2}>
+                <Text>
+                  CO: {weather.current?.air_quality?.co ?? "N/A"} μg/m³
+                </Text>
+                <Text>
+                  NO₂: {weather.current?.air_quality?.no2 ?? "N/A"} μg/m³
+                </Text>
+                <Text>
+                  O₃: {weather.current?.air_quality?.o3 ?? "N/A"} μg/m³
+                </Text>
+                <Text>
+                  SO₂: {weather.current?.air_quality?.so2 ?? "N/A"} μg/m³
+                </Text>
+                <Text>
+                  PM10: {weather.current?.air_quality?.pm10 ?? "N/A"} μg/m³
+                </Text>
+              </VStack>
+            </Box>
+          </Grid>
+        </Grid>
+      </CardBody>
+    </Card>
   );
 }
